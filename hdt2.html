@@ -183,23 +183,26 @@ pre code {
 </div>
 
 
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(ggplot2)
-datos &lt;- read.csv(&quot;movies.csv&quot;)</code></pre>
+<pre class="r"><code>datos &lt;- read.csv(&quot;movies.csv&quot;)</code></pre>
 <div id="hoja-de-trabajo-no.2" class="section level2">
 <h2>Hoja de trabajo no.2</h2>
 <div id="clustering" class="section level3">
 <h3>Clustering</h3>
 <ol style="list-style-type: decimal">
-<li><p>Haga el preprocesamiento del dataset, explique qué variables no aportan información a la generación de grupos y por qué. Describa con qué variables calculará los grupos.</p></li>
+<li>Haga el preprocesamiento del dataset, explique qué variables no aportan información a la generación de grupos y por qué. Describa con qué variables calculará los grupos.</li>
+</ol>
+<pre class="r"><code>variable &lt;- c(&quot;id&quot;, &quot;original_title&quot;, &quot;originalLanguage&quot;, &quot;homePage&quot;, &quot;video&quot;, &quot;actorsCharacter&quot;)
+DataFrame.Variables &lt;- data.frame(variable)
+print(DataFrame.Variables)</code></pre>
+<pre><code>##           variable
+## 1               id
+## 2   original_title
+## 3 originalLanguage
+## 4         homePage
+## 5            video
+## 6  actorsCharacter</code></pre>
+<p>Las variables listadas anteriormente, son las variables que considereamos no aportan informacion a la genrecion de grupos ya que cada una de ellas tienen caracteristicas propias que no se relacionan con las demas y/o contienen informacion no usable.</p>
+<ol start="2" style="list-style-type: decimal">
 <li><p>Analice la tendencia al agrupamiento usando el estadístico de Hopkings y la VAT (Visual Assessment of cluster Tendency). Discuta sus resultados e impresiones.</p></li>
 <li><p>Determine cuál es el número de grupos a formar más adecuado para los datos que está trabajando. Haga una gráfica de codo y explique la razón de la elección de la cantidad de clústeres con la que trabajará.</p></li>
 <li><p>Utilice 3 algoritmos existentes para el agrupamiento. Compare los resultados generados por cada uno.</p></li>

@@ -75,9 +75,49 @@ fviz_dist(DistData, show_labels = F)
 
 4. Utilice 3 algoritmos existentes para el agrupamiento. Compare los resultados generados por cada uno.
 
+Agrupamiento por medio de k-means
+Referencia de la libreria para k-means; https://cran.r-project.org/web/packages/fpc/fpc.pdf
+```{r kmeans, echo=FALSE}
+library(fpc)
+library(factoextra)
+
+k<-kmeans(Clustering,3,iter.max =100)
+datos$grupo<-k$cluster
+
+plotcluster(Clustering,k$cluster) 
+```
+Cluster jerarquico
+Para el cluster jerarquico se agrupan los datos basandose en la distancia que tienen entre si, de forma que los datos dentro de este cluster sean con mayor similitud entre si.
+
 ```{r}
+Matrix<- dist(Clustering)
+hc<-hclust(DistData, method = "ward.D2") #se genera el cluster jerarquico
+plot(hc, cex=0.5, axes=FALSE)#Utilizamos un dendograma
+rect.hclust(hc,k=3)
+
+groups<-cutree(hc,k=3) #Determinamos el grupo de cada fila, cortando el grafico
+datos$gruposHC<-groups
+
+silhc<-silhouette(groups,DistData)
+mean(silhc[,3]) 
+Jerarquico<-mean(silhc[,3]) 
+```
+Mezcla de gaussiano
+Esta mezcla determina que todos los datos que se generan conforman una mezcla de distribuciones gaussianas de forma finita.
+
+Referencia a la libreria de agrupamiento: https://cran.r-project.org/web/packages/mclust/index.html
+```{r}
+library(mclust)
+mclust<-Mclust(Clustering,3)
+datos$mxGau<-mclust$classification
+silmg<-silhouette(mclust$classification,datos_dist)
+mean(silmg[,3]) 
+Gauss<-mean(silmg[,3]) 
 
 ```
+Podemos observar, que con este algoritmo obtuvimos `r mean(silmg[,3])` de promedio de la silueta, el valor es mas cercano a 0 que a 1, gracias a que posee demasiadas siluetas negativas.
+
+El valor es mas cercano a 0 que a 1, gracias a que posee demasiadas siluetas negativas.
 
 5. Determine la calidad del agrupamiento hecho por cada algoritmo con el método de la silueta. Discuta los resultados. 
 

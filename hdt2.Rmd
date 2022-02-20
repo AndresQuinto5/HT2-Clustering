@@ -28,12 +28,42 @@ variable <- c("id", "original_title", "originalLanguage", "homePage", "video", "
 DataFrame.Variables <- data.frame(variable)
 print(DataFrame.Variables)
 ```
-Las variables listadas anteriormente, son las variables que considereamos no aportan informacion a la genrecion de grupos ya que cada una de ellas tienen caracteristicas propias que no se relacionan con las demas y/o contienen informacion no usable. 
+
+Las variables listadas anteriormente, son las variables que considereamos no aportan informacion a la generecion de grupos ya que cada una de ellas tienen caracteristicas propias que no se relacionan con las demas y/o contienen informacion no usable. 
 
 
 2. Analice la tendencia al agrupamiento usando el estadístico de Hopkings y la VAT (Visual Assessment of cluster Tendency). Discuta sus resultados e impresiones.
 
+Para ello necesitamos normalizar los datos de la db.
+Referencia para la funcion de hopkins
+https://www.rdocumentation.org/packages/clustertend/versions/1.5/topics/hopkins
 ```{r}
+library(hopkins) #Con esto revisamos el agrupamiento.
+
+datos <- read.csv("movies.csv")
+
+datos<-datos[complete.cases(read.csv("movies.csv")),]
+popularity<-datos[,'popularity']
+budget<-datos[,'budget']
+revenue<-datos[,'revenue']
+runtime<-datos[,'runtime']
+voteCount<-datos[,'voteCount']
+NORMD<-data.frame(popularity,budget,revenue,runtime,voteCount)
+Clustering<-scale(NORMD)
+
+hopkins(Clustering)
+
+#Matriz de distancia
+DistData<- dist(Clustering)
+
+```
+Se puede apreciar que el valor que retorna la funcion de hopkins esta muy alejado de 0.5, es decir los datos recopilados no son aleatorios, dandonos a entender que el agrupamiento se puede facilitar. Para ello utilizaremos y analizaremos de forma grafica los datos.
+
+Referencia a la libreria: https://cloud.r-project.org/web/packages/factoextra/factoextra.pdf
+```{r}
+library(factoextra) #Paquete que facilita los graficos de clustering
+knitr::opts_chunk$set(fig.width=12, fig.height=8) 
+fviz_dist(DistData, show_labels = F)
 
 ```
 

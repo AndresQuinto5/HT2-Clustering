@@ -120,7 +120,7 @@ library(cluster)
 library(mclust)
 mclust<-Mclust(Clustering,3)
 datos$mxGau<-mclust$classification
-silmg<-silhouette(mclust$classification,datos_dist)
+silmg<-silhouette(mclust$classification,DistData)
 mean(silmg[,3]) 
 Gauss<-mean(silmg[,3]) 
 

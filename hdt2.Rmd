@@ -62,6 +62,7 @@ Se puede apreciar que el valor que retorna la funcion de hopkins esta muy alejad
 
 Referencia a la libreria: https://cloud.r-project.org/web/packages/factoextra/factoextra.pdf
 ```{r}
+library(ggplot2)
 library(factoextra) #Paquete que facilita los graficos de clustering
 knitr::opts_chunk$set(fig.width=12, fig.height=8) 
 fviz_dist(DistData, show_labels = F)
@@ -150,11 +151,17 @@ El valor es mas cercano a 0 que a 1, gracias a que posee demasiadas siluetas neg
 
 5. Determine la calidad del agrupamiento hecho por cada algoritmo con el método de la silueta. Discuta los resultados. 
 
-```{r}
+k-mean
 
+Como se puede en la grafica realizada con el metodo de la silueta en el inciso anterior, la primera agrupacion se ve coherente, y en la segunda y tercera agrupacion se obtuvieron algunos valores atipicos, pero el coeficiente es bastante cercano a 1 lo que es adecuado.
 
+Cluster jerarquico
 
-```
+Como se puede en la grafica realizada con el metodo de la silueta en el inciso anterior, se puede ver que los clusters involucrados son coherentes en la gran mayoria, solo con algunos datos atipicos.
+
+Mezcla de gaussiano
+
+Como se puede en la grafica realizada con el metodo de la silueta en el inciso anterior, esta grafica se obtuvo un mayor de datos atipicos, casi iguales a los datos 'normales', solo la terccera agrupacion es totalmete coherente y el coeficiente es mas cercano a 0. 
 
 6. Interprete  los  grupos  basado  en  el  conocimiento  que  tiene  de  los  datos.  Recuerde  investigar  las medidas de tendencia central de las variables continuas y las tablas de frecuencia de las variables categóricas pertenecientes a cada grupo. Identifique hallazgos interesantes debido a las agrupaciones y describa para qué le podría servir.
 

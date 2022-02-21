@@ -77,7 +77,7 @@ plot(1:10, wss, type="b", xlab="Numero de Clusters",  ylab="WSS")
 
 ```
 
-Basado en el metodo de codo, la cantidad de clusters optima de clusters puede variar entre 4 y 5.
+Basado en el metodo de codo, la cantidad de clusters optima de clusters puede variar entre 4 y 5
 
 
 4. Utilice 3 algoritmos existentes para el agrupamiento. Compare los resultados generados por cada uno.

@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 datos <- read.csv("movies.csv")
+library(hopkins)
 ```
 
 ## Hoja de trabajo no.2 
@@ -29,7 +30,7 @@ DataFrame.Variables <- data.frame(variable)
 print(DataFrame.Variables)
 ```
 
-Las variables listadas anteriormente, son las variables que considereamos no aportan informacion a la generecion de grupos ya que cada una de ellas tienen caracteristicas propias que no se relacionan con las demas y/o contienen informacion no usable. 
+Las variables listadas anteriormente, son las variables que considereamos no aportan informacion a la generacion de grupos ya que cada una de ellas tienen caracteristicas propias que no se relacionan con las demas y/o contienen informacion no usable. 
 
 
 2. Analice la tendencia al agrupamiento usando el estadístico de Hopkings y la VAT (Visual Assessment of cluster Tendency). Discuta sus resultados e impresiones.
@@ -72,12 +73,12 @@ fviz_dist(DistData, show_labels = F)
 ```{r}
 wss = 0
 for (i in 1:10)
-  wss[i] <- sum(kmeans(NORMD[,1:5], centers=i)$withinss)
+  wss[i] <- sum(kmeans(Clustering[,1:5], centers=i)$withinss)
 plot(1:10, wss, type="b", xlab="Numero de Clusters",  ylab="WSS")
 
 ```
 
-Basado en el metodo de codo, la cantidad de clusters optima de clusters puede variar entre 4 y 5
+Basado en el resultado del método de codo, el número de clusters óptimo para analizar los datos es 6.
 
 
 4. Utilice 3 algoritmos existentes para el agrupamiento. Compare los resultados generados por cada uno.
@@ -97,6 +98,7 @@ Cluster jerarquico
 Para el cluster jerarquico se agrupan los datos basandose en la distancia que tienen entre si, de forma que los datos dentro de este cluster sean con mayor similitud entre si.
 
 ```{r}
+library(cluster)
 Matrix<- dist(Clustering)
 hc<-hclust(DistData, method = "ward.D2") #se genera el cluster jerarquico
 plot(hc, cex=0.5, axes=FALSE)#Utilizamos un dendograma
@@ -114,6 +116,7 @@ Esta mezcla determina que todos los datos que se generan conforman una mezcla de
 
 Referencia a la libreria de agrupamiento: https://cran.r-project.org/web/packages/mclust/index.html
 ```{r}
+library(cluster)
 library(mclust)
 mclust<-Mclust(Clustering,3)
 datos$mxGau<-mclust$classification
@@ -130,7 +133,73 @@ El valor es mas cercano a 0 que a 1, gracias a que posee demasiadas siluetas neg
 
 ```{r}
 
+
+
 ```
 
 6. Interprete  los  grupos  basado  en  el  conocimiento  que  tiene  de  los  datos.  Recuerde  investigar  las medidas de tendencia central de las variables continuas y las tablas de frecuencia de las variables categóricas pertenecientes a cada grupo. Identifique hallazgos interesantes debido a las agrupaciones y describa para qué le podría servir.
+
+
+```{r Media popularity}
+mean(x = NORMD$popularity, na.rm = TRUE)
+```
+La media de la popularidad es 68.1854
+
+
+```{r Media budget}
+mean(x = NORMD$budget, na.rm = TRUE)
+```
+La media de presupuesto es 24335422
+
+
+```{r Media revenue}
+mean(x = NORMD$revenue, na.rm = TRUE)
+```
+
+```{r Media runtime}
+mean(x = NORMD$runtime, na.rm = TRUE)
+```
+La media de runtime es de 103.2592
+
+
+```{r Media VoteCount}
+round(mean(x = NORMD$voteCount, na.rm = TRUE))
+```
+La media de votos es 1871
+
+
+```{r Moda popularity}
+tabla <- table(NORMD$popularity)
+head(sort(tabla, decreasing = TRUE), n = 15)
+```
+La moda de la popularidad es compartida entre 15.804 y 39.372 con 3 repeticiones cada una. 
+
+
+```{r Moda budget}
+tabla <- table(NORMD$budget)
+head(sort(tabla, decreasing = TRUE), n = 15)
+```
+La moda de presupuestos es de 20000000 con 84 repeticiones. El valor 0 ha sido ignorado debido a que se considera un NA o NULL.
+
+
+
+```{r Moda revenue}
+tabla <- table(NORMD$revenue)
+head(sort(tabla, decreasing = TRUE), n = 15)
+```
+La moda de los infresos es 7e+06 con 3 repeticiones. El valor 0 es ignorado debido a que se considera un NA o NuLL.
+
+
+```{r Moda runtime}
+tabla <- table(NORMD$runtime)
+head(sort(tabla, decreasing = TRUE), n = 15)
+```
+La moda de runtime es 90 con 143 repeticiones. 
+
+
+```{r Moda VoteCount}
+tabla <- table(NORMD$voteCount)
+head(sort(tabla, decreasing = TRUE), n = 15)
+```
+La moda de votos por pelicula es de 4 con 15 repeticiones. 
 

@@ -88,12 +88,25 @@ Referencia de la libreria para k-means; https://cran.r-project.org/web/packages/
 ```{r kmeans, echo=FALSE}
 library(fpc)
 library(factoextra)
+library(ggplot2)
+library(cluster)
 
 k<-kmeans(Clustering,3,iter.max =100)
 datos$grupo<-k$cluster
 
 plotcluster(Clustering,k$cluster) 
+#Establecemos k centroides en el espacio de datos para visualizarlos de la forma correcta
+fviz_cluster(k, data = Clustering,geom = "point", ellipse.type = "norm")
+#Reubicamos y asignamos estos centroides
+SiluetaK<-silhouette(k$cluster,dist(Clustering))
+mean(SiluetaK[,3]) 
+Kmean<-mean(SiluetaK[,3]) 
+#Graficamos la silueta de k - means
+plot(SiluetaK, cex.names=.4, col=1:3, border=NA)
 ```
+El resultado es muy cercano a 1, el cual es un resultado deseable.
+
+
 Cluster jerarquico
 Para el cluster jerarquico se agrupan los datos basandose en la distancia que tienen entre si, de forma que los datos dentro de este cluster sean con mayor similitud entre si.
 
@@ -109,8 +122,14 @@ datos$gruposHC<-groups
 
 silhc<-silhouette(groups,DistData)
 mean(silhc[,3]) 
-Jerarquico<-mean(silhc[,3]) 
+Jerarquico<-mean(silhc[,3])
+
+plot(silhc, cex.names=.4, col=1:3, border = NA)
 ```
+
+Similar al resultado anterior con el cluster jerarquico obtuvimos un resultado deseable, cercano a 1
+
+
 Mezcla de gaussiano
 Esta mezcla determina que todos los datos que se generan conforman una mezcla de distribuciones gaussianas de forma finita.
 
@@ -123,7 +142,7 @@ datos$mxGau<-mclust$classification
 silmg<-silhouette(mclust$classification,DistData)
 mean(silmg[,3]) 
 Gauss<-mean(silmg[,3]) 
-
+plot(silmg, cex.names=.4, col=1:3, border = NA)
 ```
 Podemos observar, que con este algoritmo obtuvimos `r mean(silmg[,3])` de promedio de la silueta, el valor es mas cercano a 0 que a 1, gracias a que posee demasiadas siluetas negativas.
 
